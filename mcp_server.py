@@ -69,12 +69,16 @@ app.mount("/mcp", server.sse_app())
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="iOS Screenshot MCP Server")
-    parser.add_argument("--port", type=int, default=8000, help="Server port")
+    parser.add_argument("--stdio", action="store_true", help="Run in stdio mode for Trae MCP")
+    parser.add_argument("--port", type=int, default=8000, help="Server port (HTTP mode)")
     args = parser.parse_args()
     
-    uvicorn.run(
-        "mcp_server:app",
-        host="0.0.0.0",
-        port=args.port,
-        reload=False
-    )
+    if args.stdio:
+        server.run()
+    else:
+        uvicorn.run(
+            "mcp_server:app",
+            host="0.0.0.0",
+            port=args.port,
+            reload=False
+        )
