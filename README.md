@@ -1,6 +1,6 @@
-# iOS Screenshot MCP Server
+# iOS Appium MCP Server
 
-基于 Appium 的 iOS 设备屏幕截图 MCP Server，可用于 Trae 等支持 MCP 协议的 AI 客户端。
+基于 Appium 的 iOS 设备自动化测试 MCP Server，支持屏幕截图、元素点击和 UI 树获取，可用于 Trae 等支持 MCP 协议的 AI 客户端。
 
 ## 安装依赖
 
@@ -99,6 +99,45 @@ uv run python mcp_server.py
 
 截图文件的完整路径。
 
+### element_click_tool
+
+通过 accessibility_id 点击 iOS 设备上的元素。
+
+**参数：**
+
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| accessibility_id | str | - | 元素的 accessibility identifier（必填） |
+| platform_name | str | iOS | 平台名称 |
+| automation_name | str | XCUITest | 自动化框架名称 |
+| device_name | str | iPhone 16 Pro Max | 设备名称 |
+| udid | str | 32EFED52-E30A-4CC8-AAE9-525B5A3A5B6A | 设备唯一标识符 |
+| bundle_id | str | com.xue.Demo01 | 应用 Bundle ID |
+| appium_server_url | str | http://127.0.0.1:4723 | Appium 服务器地址 |
+
+**返回值：**
+
+操作结果消息。
+
+### dump_ui_element_tool
+
+获取 iOS 设备当前屏幕的完整 UI 元素树（XML 格式）。
+
+**参数：**
+
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| platform_name | str | iOS | 平台名称 |
+| automation_name | str | XCUITest | 自动化框架名称 |
+| device_name | str | iPhone 16 Pro Max | 设备名称 |
+| udid | str | 32EFED52-E30A-4CC8-AAE9-525B5A3A5B6A | 设备唯一标识符 |
+| bundle_id | str | com.xue.Demo01 | 应用 Bundle ID |
+| appium_server_url | str | http://127.0.0.1:4723 | Appium 服务器地址 |
+
+**返回值：**
+
+UI 元素树的 XML 字符串。
+
 ## 前置条件
 
 调用截图工具前需要确保：
@@ -112,8 +151,12 @@ uv run python mcp_server.py
 ```
 .
 ├── mcp_server.py          # MCP Server 主文件
-├── screenshot_service.py  # 截图逻辑服务模块
+├── screenshot_service.py  # Appium 服务模块（会话管理、截图、点击、UI树）
 ├── main.py                # 原始截图脚本
 ├── pyproject.toml         # 项目配置
 └── README.md              # 项目说明
 ```
+
+## 会话管理
+
+所有工具共享同一个 Appium 会话，避免重复建立连接。会话在首次调用任一工具时创建，保持活跃状态直到服务器停止。
