@@ -3,12 +3,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import argparse
-from screenshot_service import take_ios_screenshot
+from screenshot_service import take_ios_screenshot, element_click, dump_ui_element
 
 
 server = FastMCP(
-    name="iOS Screenshot MCP Server",
-    instructions="提供 iOS 设备屏幕截图功能"
+    name="iOS Appium MCP Server",
+    instructions="提供 iOS 设备屏幕截图、元素点击和 UI 树获取功能"
 )
 
 
@@ -48,7 +48,76 @@ def take_ios_screenshot_tool(
     )
 
 
-app = FastAPI(title="iOS Screenshot MCP Server", version="1.0.0")
+@server.tool()
+def element_click_tool(
+    accessibility_id: str,
+    platform_name: str = "iOS",
+    automation_name: str = "XCUITest",
+    device_name: str = "iPhone 16 Pro Max",
+    udid: str = "32EFED52-E30A-4CC8-AAE9-525B5A3A5B6A",
+    bundle_id: str = "com.xue.Demo01",
+    appium_server_url: str = "http://127.0.0.1:4723"
+) -> str:
+    """
+    通过 accessibility_id 点击 iOS 设备上的元素
+
+    Args:
+        accessibility_id: 元素的 accessibility identifier
+        platform_name: 平台名称，默认为 iOS
+        automation_name: 自动化框架名称，默认为 XCUITest
+        device_name: 设备名称，默认为 iPhone 16 Pro Max
+        udid: 设备唯一标识符
+        bundle_id: 应用 Bundle ID
+        appium_server_url: Appium 服务器地址
+
+    Returns:
+        操作结果消息
+    """
+    return element_click(
+        accessibility_id=accessibility_id,
+        platform_name=platform_name,
+        automation_name=automation_name,
+        device_name=device_name,
+        udid=udid,
+        bundle_id=bundle_id,
+        appium_server_url=appium_server_url
+    )
+
+
+@server.tool()
+def dump_ui_element_tool(
+    platform_name: str = "iOS",
+    automation_name: str = "XCUITest",
+    device_name: str = "iPhone 16 Pro Max",
+    udid: str = "32EFED52-E30A-4CC8-AAE9-525B5A3A5B6A",
+    bundle_id: str = "com.xue.Demo01",
+    appium_server_url: str = "http://127.0.0.1:4723"
+) -> str:
+    """
+    获取 iOS 设备当前屏幕的完整 UI 元素树
+
+    Args:
+        platform_name: 平台名称，默认为 iOS
+        automation_name: 自动化框架名称，默认为 XCUITest
+        device_name: 设备名称，默认为 iPhone 16 Pro Max
+        udid: 设备唯一标识符
+        bundle_id: 应用 Bundle ID
+        appium_server_url: Appium 服务器地址
+
+    Returns:
+        UI 元素树的 XML 字符串
+    """
+    return dump_ui_element(
+        platform_name=platform_name,
+        automation_name=automation_name,
+        device_name=device_name,
+        udid=udid,
+        bundle_id=bundle_id,
+        appium_server_url=appium_server_url
+    )
+
+
+app = FastAPI(title="iOS Appium MCP Server", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
