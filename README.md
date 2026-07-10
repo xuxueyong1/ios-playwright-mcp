@@ -35,7 +35,7 @@ uv run python mcp_server.py
   "name": "iOS Screenshot MCP",
   "type": "stdio",
   "command": "uv run python mcp_server.py --stdio",
-  "cwd": "/Users/xuxueyong/Desktop/mcp-servers/ios-playwright-mcp",
+  "cwd": "~/mcp-servers/ios-playwright-mcp",
   "enabled": true
 }
 ```
@@ -45,7 +45,7 @@ uv run python mcp_server.py
 先启动服务器：
 
 ```bash
-cd /Users/xuxueyong/Desktop/mcp-servers/ios-playwright-mcp
+cd ~/mcp-servers/ios-playwright-mcp
 uv run python mcp_server.py
 ```
 
@@ -70,9 +70,9 @@ uv run python mcp_server.py
           "command": "bash",
           "args": [
             "-c",
-            "source /Users/xuxueyong/Desktop/mcp-servers/ios-playwright-mcp/.venv/bin/activate && uv run python /Users/xuxueyong/Desktop/mcp-servers/ios-playwright-mcp/mcp_server.py --stdio"
+            "source ~/mcp-servers/ios-playwright-mcp/.venv/bin/activate && uv run python ~/mcp-servers/ios-playwright-mcp/mcp_server.py --stdio"
           ],
-          "cwd": "/Users/xuxueyong/Desktop/mcp-servers/ios-playwright-mcp/"
+          "cwd": "~/mcp-servers/ios-playwright-mcp/"
         }
       }
 ```
