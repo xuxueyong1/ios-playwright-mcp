@@ -2,6 +2,7 @@ from mcp.server import FastMCP
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import argparse
 from screenshot_service import take_ios_screenshot
 
 
@@ -67,9 +68,13 @@ app.mount("/mcp", server.sse_app())
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="iOS Screenshot MCP Server")
+    parser.add_argument("--port", type=int, default=8000, help="Server port")
+    args = parser.parse_args()
+    
     uvicorn.run(
         "mcp_server:app",
         host="0.0.0.0",
-        port=8000,
-        reload=True
+        port=args.port,
+        reload=False
     )
