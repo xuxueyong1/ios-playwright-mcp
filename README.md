@@ -35,7 +35,7 @@ uv run python mcp_server.py
   "name": "iOS Screenshot MCP",
   "type": "stdio",
   "command": "uv run python mcp_server.py --stdio",
-  "cwd": "/Users/xuxueyong/Desktop/Python/练习/AppuimDemo",
+  "cwd": "/Users/xuxueyong/Desktop/mcp-servers/ios-playwright-mcp",
   "enabled": true
 }
 ```
@@ -45,7 +45,7 @@ uv run python mcp_server.py
 先启动服务器：
 
 ```bash
-cd /Users/xuxueyong/Desktop/Python/练习/AppuimDemo
+cd /Users/xuxueyong/Desktop/mcp-servers/ios-playwright-mcp
 uv run python mcp_server.py
 ```
 
@@ -58,6 +58,23 @@ uv run python mcp_server.py
   "url": "http://localhost:8000/mcp/sse",
   "enabled": true
 }
+```
+
+## Claude code MCP 配置
+
+```json
+"mcpServers": {
+        "ios-playwright": {
+          "name": "ios-playwright",
+          "type": "stdio",
+          "command": "bash",
+          "args": [
+            "-c",
+            "source /Users/xuxueyong/Desktop/mcp-servers/ios-playwright-mcp/.venv/bin/activate && uv run python /Users/xuxueyong/Desktop/mcp-servers/ios-playwright-mcp/mcp_server.py --stdio"
+          ],
+          "cwd": "/Users/xuxueyong/Desktop/mcp-servers/ios-playwright-mcp/"
+        }
+      }
 ```
 
 ## 工具说明
